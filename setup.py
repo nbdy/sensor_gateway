@@ -4,7 +4,7 @@ from setuptools import setup, find_packages
 setup(
     long_description=open("README.md", "r").read(),
     name="sensor_gateway",
-    version="0.1",
+    version="0.2",
     description="sensor gateway for data collection",
     author="Pascal Eberlein",
     author_email="pascal@eberlein.io",
