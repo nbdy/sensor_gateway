@@ -16,7 +16,6 @@ def parse_args():
     ap.add_argument("-d", "--database", help="PostgreSQL database to use", default="sensor_gateway")
     ap.add_argument("-du", "--database-user", help="PostgreSQL database username", default="postgres")
     ap.add_argument("-dp", "--database-pass", help="Password for database-user", default="postgres")
-    ap.add_argument("-sh", "--serial-helo", help="HELO used for the serial devices", default=b"AYE")
     return ap.parse_args()
 
 
