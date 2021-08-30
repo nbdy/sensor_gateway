@@ -1,0 +1,8 @@
+flask
+pyserial
+procpy==0.4
+dataset
+pyrunnable
+loguru
+simplejson
+psycopg2-binary
