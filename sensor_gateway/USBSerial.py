@@ -25,7 +25,10 @@ class SerialReader(Runnable):
         try:
             return loads(self.serial.readline().strip(b"\r\n"))
         except JSONDecodeError:
-            return None
+            pass
+        except UnicodeDecodeError:
+            pass
+        return None
 
     def work(self):
         data = self.next_line_2_json()
