@@ -1,5 +1,6 @@
 from serial import Serial, SerialException
 from serial.tools.list_ports import comports
+from datetime import datetime
 
 import dataset
 from simplejson import loads, JSONDecodeError
@@ -76,6 +77,7 @@ class SerialManager(Process):
             item = self.serial_queue.get()
             device_name = item["device"]
             del item["device"]
+            item["last_updated"] = datetime.now()
             log.debug(item)
             self.db[device_name].insert(item)
         self.sleep(0.4)
