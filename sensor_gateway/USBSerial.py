@@ -41,7 +41,7 @@ class SerialReader(Runnable):
 
 class SerialManager(Process):
     db: dataset.Database = None
-    serial_devices: list[SerialReader] = []
+    serial_devices: list = []
     serial_queue: Queue = None
 
     def __init__(self, database_url: str):
