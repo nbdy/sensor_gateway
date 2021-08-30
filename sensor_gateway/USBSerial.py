@@ -1,4 +1,4 @@
-from serial import Serial
+from serial import Serial, SerialException
 from serial.tools.list_ports import comports
 
 import dataset
@@ -28,6 +28,9 @@ class SerialReader(Runnable):
             pass
         except UnicodeDecodeError:
             pass
+        except SerialException:
+            log.debug("Lost connection. Stopping.")
+            self.stop()
         return None
 
     def work(self):
