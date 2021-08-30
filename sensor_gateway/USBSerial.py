@@ -16,19 +16,10 @@ class SerialReader(Runnable):
     device_name: str = None
     helo: bytes = None
 
-    def __init__(self, queue: Queue, serial: Serial, helo: bytes = b"AYE"):
+    def __init__(self, queue: Queue, serial: Serial):
         Runnable.__init__(self)
         self._queue = queue
         self.serial = serial
-        self.helo = helo
-
-    def get_device_name(self, helo: bytes) -> str:
-        self.serial.write(helo)
-        return self.serial.readline().strip(b"\r\n").decode("utf-8")
-
-    def on_start(self):
-        self.device_name = self.get_device_name(self.helo)
-        log.debug("Going to read from: {}", self.device_name)
 
     def next_line_2_json(self):
         try:
@@ -39,7 +30,7 @@ class SerialReader(Runnable):
     def work(self):
         data = self.next_line_2_json()
         if data is not None:
-            self._queue.put({"device": self.device_name, "data": data})
+            self._queue.put(data)
 
 
 class SerialManager(Process):
@@ -77,6 +68,8 @@ class SerialManager(Process):
     def work(self):
         while not self.serial_queue.empty():
             item = self.serial_queue.get()
+            device_name = item["device"]
+            del item["device"]
             log.debug(item)
-            self.db[(item["device"])].insert(item["data"])
+            self.db[device_name].insert(item)
         self.sleep(0.4)
